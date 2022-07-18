@@ -12,7 +12,7 @@ The machine code will be written to a file with the same filename and extension 
 ### To run the module:
 Specify the location of `main.py` and the input directory, e.g.:
 
-`python3 XXX/main.py <directory>`
+`python3 IbarakiChristieProject7/src/main.py <directory>`
 
 ### Known issues:
 None
