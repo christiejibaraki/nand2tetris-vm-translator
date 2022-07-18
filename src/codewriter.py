@@ -4,7 +4,7 @@ The CodeWriter module
 
 SEGMENT_DICT = {
     "local": "LCL",
-    "argument":"ARG",
+    "argument": "ARG",
     "this": "THIS",
     "that": "THAT"}
 
@@ -56,7 +56,7 @@ class CodeWriter:
         """
         if segment in {"local", "argument", "this", "that"}:
             ram_var = SEGMENT_DICT[segment]
-            self.__output += f"@{ram_var}\nD=M\n@{index}\nA=D+A\nD=M\n@SP\nA=M\nM=D\n"
+            self.__output += f"@{ram_var}\nD=M\n@{index}\nA=D+A\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n"
         elif segment == "constant":
             self.__output += f"@{index}\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n"
         elif segment == "temp":
