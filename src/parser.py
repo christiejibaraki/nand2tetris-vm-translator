@@ -25,31 +25,31 @@ class Parser:
     def __init__(self, input_file):
         self.vm_lang = clean_vm_lang_file(input_file)
         self.commands = self.vm_lang.split("\n")
-        self.current_index = None
-        self.current_command = None
-        self.current_command_type = None
-        self.arg1 = None
-        self.arg2 = None
+        self.__current_index = None
+        self.__current_command = None
+        self.__current_command_type = None
+        self.__arg1 = None
+        self.__arg2 = None
 
     def has_more_commands(self):
         """
         Indicates whether there are more commands in the input
         :return: (Boolean)
         """
-        return self.current_index is None or self.current_index < len(self.commands)-1
+        return self.__current_index is None or self.__current_index < len(self.commands) - 1
 
     def advance(self):
         """
         Read next command from input and makes it current command
         :return: NA, updates self.current_command
         """
-        if self.current_index is None:
-            self.current_index = 0
+        if self.__current_index is None:
+            self.__current_index = 0
         else:
-            if self.current_index == len(self.commands) - 1:
+            if self.__current_index == len(self.commands) - 1:
                 raise Exception("No more commands in the input")
-            self.current_index += 1
-        self.current_command = self.commands[self.current_index]
+            self.__current_index += 1
+        self.__current_command = self.commands[self.__current_index]
         self.__update_command_properties()
 
     def __update_command_properties(self):
@@ -59,31 +59,52 @@ class Parser:
         """
         self.__reset_properties()
 
-        if self.current_command is None:
-            self.current_command_type = None
+        if self.__current_command is None:
+            self.__current_command_type = None
         else:
-            command_list = parse_command(self.current_command)
+            command_list = parse_command(self.__current_command)
             if len(command_list) == 1:
-                self.current_command_type = Parser.C_ARITHMETIC
+                self.__current_command_type = Parser.C_ARITHMETIC
             else:
-                command, self.arg1, self.arg2 = parse_command(self.current_command)
-                self.current_command_type = COMMAND_MAP[command]
+                command, self.__arg1, self.__arg2 = parse_command(self.__current_command)
+                self.__current_command_type = COMMAND_MAP[command]
 
     def __reset_properties(self):
         """
         Resent command properties
         :return: NA
         """
-        self.current_command_type = None
-        self.arg1 = None
-        self.arg2 = None
+        self.__current_command_type = None
+        self.__arg1 = None
+        self.__arg2 = None
 
     def get_current_command_type(self):
         """
         Returns current command type of current command
         :return: (String) command type
         """
-        return self.current_command_type
+        return self.__current_command_type
+
+    def get_current_command(self):
+        """
+        Returns current command
+        :return: (str) command
+        """
+        return self.__current_command
+
+    def get_arg1(self):
+        """
+        Returns arg1
+        "return: (str) arg1
+        """
+        return self.__arg1
+
+    def get_arg2(self):
+        """
+        Returns arg2
+        "return: (str) arg2
+        """
+        return self.__arg2
 
 
 COMMAND_MAP = {
