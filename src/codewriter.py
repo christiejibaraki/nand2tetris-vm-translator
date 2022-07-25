@@ -89,6 +89,30 @@ class CodeWriter:
             static_var = f"{self.__prog_name}Static{index}"
             self.__output += f"@SP\nAM=M-1\nD=M\n@{static_var}\nM=D\n"
 
+    def write_label(self, label):
+        """
+        Translate label command and add it to self.output
+        :param label: (str) label
+        :return: NA, updates self.output
+        """
+        self.__output += f"({label})\n"
+
+    def write_goto(self, label):
+        """
+        Translate goto command and add it to self.output
+        :param label: (str) label
+        :return: NA, updates self.output
+        """
+        self.__output += f"@{label}\n0;JMP\n"
+
+    def write_if(self, label):
+        """
+        Translate if-goto command and add it to self.output
+        :param label: (str) label
+        :return: NA, updates self.output
+        """
+        self.__output += f"@SP\nAM=M-1\nD=M\n@{label}\nD;JNE\n"
+
     def get_output(self):
         """
         Returns hack assembly language

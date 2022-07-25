@@ -24,6 +24,12 @@ def translate(prog_name, input_file_path):
             code_writer.write_push(parser.get_arg1(), parser.get_arg2())
         elif command_type == Parser.C_POP:
             code_writer.write_pop(parser.get_arg1(), parser.get_arg2())
+        elif command_type == Parser.C_LABEL:
+            code_writer.write_label(parser.get_arg1())
+        elif command_type == Parser.C_GOTO:
+            code_writer.write_goto(parser.get_arg1())
+        elif command_type == Parser.C_IF:
+            code_writer.write_if(parser.get_arg1())
     return code_writer.get_output()
 
 

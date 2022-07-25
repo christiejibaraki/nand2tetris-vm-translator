@@ -65,8 +65,11 @@ class Parser:
             command_list = parse_command(self.__current_command)
             if len(command_list) == 1:
                 self.__current_command_type = Parser.C_ARITHMETIC
+            elif len(command_list) == 2:
+                command, self.__arg1 = command_list
+                self.__current_command_type = COMMAND_MAP[command]
             else:
-                command, self.__arg1, self.__arg2 = parse_command(self.__current_command)
+                command, self.__arg1, self.__arg2 = command_list
                 self.__current_command_type = COMMAND_MAP[command]
 
     def __reset_properties(self):
@@ -110,6 +113,9 @@ class Parser:
 COMMAND_MAP = {
     "push": Parser.C_PUSH,
     "pop": Parser.C_POP,
+    "label": Parser.C_LABEL,
+    "if-goto": Parser.C_IF,
+    "goto": Parser.C_GOTO
     }
 
 

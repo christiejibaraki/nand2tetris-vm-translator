@@ -1,5 +1,8 @@
 # nand2tetris-vm-translator
-VM Translator, Week 5, Project 7: Stack Arithmetic and Memory Access
+VM Translator, Week 5-6, Project 7 & 8.
+
+- Project 7: Stack Arithmetic, Memory Access
+- Project 8: Program Flow, Function Calls
 
 The main module runs the VM translator which translates from a virtual machine language to the Hack assembly language.
 
