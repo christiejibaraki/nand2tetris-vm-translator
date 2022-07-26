@@ -34,6 +34,8 @@ def translate(prog_name, input_file_path):
             code_writer.write_return()
         elif command_type == Parser.C_FUNCTION:
             code_writer.write_function_def(parser.get_arg1(), parser.get_arg2())
+        elif command_type == Parser.C_CALL:
+            code_writer.write_call_function(parser.get_arg1(), parser.get_arg2())
     return code_writer.get_output()
 
 
@@ -42,7 +44,7 @@ if __name__ == "__main__":
     try:
         path = os.path.realpath(dir_input)
         directory_name = os.path.basename(path)
-        input_filename = directory_name + ".vm"
+        input_filename = "Sys" + ".vm"
         print(f"*** Translating {input_filename}")
         hack_assembly_lang = translate(directory_name, os.path.join(path, input_filename))
         out_filename = directory_name + ".asm"

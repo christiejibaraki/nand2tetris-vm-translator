@@ -123,6 +123,27 @@ class CodeWriter:
         """
         self.__output += f"@SP\nAM=M-1\nD=M\n@{label}\nD;JNE\n"
 
+    def write_call_function(self, function_name, nArgs):
+        """
+        Translate function call and add it to self.output
+        :param function_name: (str) name of function
+        :param nArgs: (str) number of arguments (already pushed onto the stack)
+        :return: NA, updates self.output
+        """
+        nArgs_int = int(nArgs)
+        return_label = f"RETURN_{function_name}_{self.__counter}"
+        self.__counter += 1
+        self.__output += (f"@{return_label}\nD=A\n@SP\nAM=M+1\nA=A-1\nM=D\n"  # push return address onto stack
+                          + self.push_variable("LCL")
+                          + self.push_variable("ARG")
+                          + self.push_variable("THIS")
+                          + self.push_variable("THAT")
+                          + f"@SP\nD=M\n@{nArgs_int+5}\nD=D-A\n@ARG\nM=D\n"  # make ARG point to function args
+                          + "@SP\nD=M\n@LCL\nM=D\n"  # make LCL point to where SP is pointing
+                          + f"@{function_name}\n0;JMP\n"  # goto function
+                          + f"({return_label})\n"  # (return address)
+                          )
+
     def write_function_def(self, function_name, nVar):
         """
         Translate function definition and add it to self.output
@@ -153,8 +174,8 @@ class CodeWriter:
                           )
 
     @staticmethod
-    def push_return_address(return_address):
-        return f"@{return_address}\nD=A\n@SP\nAM=M+1\nA=A-1\nM=D\n"
+    def push_variable(variable):
+        return f"@{variable}\nD=M\n@SP\nAM=M+1\nA=A-1\nM=D\n"
 
     def get_output(self):
         """
