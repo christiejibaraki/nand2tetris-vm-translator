@@ -5,7 +5,20 @@ from codewriter import CodeWriter
 from utility import write_file
 
 
-def translate(prog_name, input_file_path):
+def init(prog_name):
+    """
+    Bootstrapping code to call Sys.init
+    :param prog_name: (str) name of directory containing program
+    :return: (str) bootstrapping code
+    """
+    code_writer = CodeWriter(prog_name)
+    output = "@256\nD=A\n@SP\nM=D\n"
+    code_writer.write_call_function("Sys.init", 0)
+    output += code_writer.get_output()
+    return output
+
+
+def translate_file(prog_name, input_file_path):
     """
     Translate VM language file to hack assembly language
 
@@ -41,16 +54,15 @@ def translate(prog_name, input_file_path):
 
 if __name__ == "__main__":
     dir_input = sys.argv[1]
-    try:
-        path = os.path.realpath(dir_input)
-        directory_name = os.path.basename(path)
-        input_filename = "Sys" + ".vm"
-        print(f"*** Translating {input_filename}")
-        hack_assembly_lang = translate(directory_name, os.path.join(path, input_filename))
-        out_filename = directory_name + ".asm"
-        out_file_path = os.path.join(path, out_filename)
-        write_file(out_file_path, hack_assembly_lang)
-        print(f"*** Writing output file {out_filename} to {path}")
-    except FileNotFoundError as e:
-        print(f"Input file {input_filename} not found")
-        print(e)
+    path = os.path.realpath(dir_input)
+    directory_name = os.path.basename(path)
+    output = init(directory_name)
+    for filename in os.listdir(path):
+        classname, extension = os.path.splitext(filename)
+        if extension == ".vm":
+            print(f"*** Translating {filename}")
+            output += translate_file(classname, os.path.join(path, filename))
+    out_filename = directory_name + ".asm"
+    out_file_path = os.path.join(path, out_filename)
+    write_file(out_file_path, output)
+    print(f"*** Writing output file {out_filename} to {path}")
