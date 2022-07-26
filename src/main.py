@@ -30,6 +30,10 @@ def translate(prog_name, input_file_path):
             code_writer.write_goto(parser.get_arg1())
         elif command_type == Parser.C_IF:
             code_writer.write_if(parser.get_arg1())
+        elif command_type == Parser.C_RETURN:
+            code_writer.write_return()
+        elif command_type == Parser.C_FUNCTION:
+            code_writer.write_function_def(parser.get_arg1(), parser.get_arg2())
     return code_writer.get_output()
 
 

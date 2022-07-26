@@ -64,7 +64,10 @@ class Parser:
         else:
             command_list = parse_command(self.__current_command)
             if len(command_list) == 1:
-                self.__current_command_type = Parser.C_ARITHMETIC
+                if self.__current_command == "return":
+                    self.__current_command_type = Parser.C_RETURN
+                else:
+                    self.__current_command_type = Parser.C_ARITHMETIC
             elif len(command_list) == 2:
                 command, self.__arg1 = command_list
                 self.__current_command_type = COMMAND_MAP[command]
@@ -115,8 +118,10 @@ COMMAND_MAP = {
     "pop": Parser.C_POP,
     "label": Parser.C_LABEL,
     "if-goto": Parser.C_IF,
-    "goto": Parser.C_GOTO
-    }
+    "goto": Parser.C_GOTO,
+    "function": Parser.C_FUNCTION,
+    "call": Parser.C_CALL
+}
 
 
 def parse_command(command):
