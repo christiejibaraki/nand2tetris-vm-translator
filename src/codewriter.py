@@ -41,13 +41,16 @@ class CodeWriter:
         elif command == "not":
             self.__output += "@SP\nA=M-1\nM=!M\n"
         elif command == "gt":
-            self.__output += f"@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\nM=-1\n@CONTINUE_GT_{self.__counter}\nD;JGT\n@SP\nA=M-1\nM=0\n(CONTINUE_GT_{self.__counter})\n"
+            self.__output += (f"@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\nM=-1\n"
+                              "@CONTINUE_GT_{self.__counter}\nD;JGT\n@SP\nA=M-1\nM=0\n(CONTINUE_GT_{self.__counter})\n")
             self.__counter += 1
         elif command == "lt":
-            self.__output += f"@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\nM=-1\n@CONTINUE_LT{self.__counter}\nD;JLT\n@SP\nA=M-1\nM=0\n(CONTINUE_LT{self.__counter})\n"
+            self.__output += (f"@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\nM=-1\n"
+                              "@CONTINUE_LT{self.__counter}\nD;JLT\n@SP\nA=M-1\nM=0\n(CONTINUE_LT{self.__counter})\n")
             self.__counter += 1
         elif command == "eq":
-            self.__output += f"@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\nM=-1\n@CONTINUE_EQ_{self.__counter}\nD;JEQ\n@SP\nA=M-1\nM=0\n(CONTINUE_EQ_{self.__counter})\n"
+            self.__output += (f"@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\nM=-1\n"
+                              "@CONTINUE_EQ_{self.__counter}\nD;JEQ\n@SP\nA=M-1\nM=0\n(CONTINUE_EQ_{self.__counter})\n")
             self.__counter += 1
 
     def write_push(self, segment, index):

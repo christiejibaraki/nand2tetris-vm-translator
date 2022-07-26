@@ -55,7 +55,7 @@ class Parser:
     def __update_command_properties(self):
         """
         Set current command type
-        :return:
+        :return: NA, updates self.__current_command_type
         """
         self.__reset_properties()
 
