@@ -147,8 +147,7 @@ def clean_vm_lang_file(input_file_arg):
         if extension == ".vm":
             clean_string = clean_code(read_file(input_file_arg))
             return clean_string
-        else:
-            print(f"For file {input_filename}, expected extension .vm; actual extension: {extension}")
+        print(f"For file {input_filename},expected extension .vm; actual extension: {extension}")
     except FileNotFoundError as e:
         print("Input file not found")
         print(e)

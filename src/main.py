@@ -1,3 +1,7 @@
+"""
+Main module
+Translates .vm files to hack assembly language
+"""
 import sys
 import os
 from parser import Parser
@@ -12,10 +16,10 @@ def init(prog_name):
     :return: (str) bootstrapping code
     """
     code_writer = CodeWriter(prog_name)
-    output = "@256\nD=A\n@SP\nM=D\n"
+    init_output = "@256\nD=A\n@SP\nM=D\n"
     code_writer.write_call_function("Sys.init", 0)
-    output += code_writer.get_output()
-    return output
+    init_output += code_writer.get_output()
+    return init_output
 
 
 def translate_file(prog_name, input_file_path):
@@ -57,6 +61,8 @@ if __name__ == "__main__":
     path = os.path.realpath(dir_input)
     directory_name = os.path.basename(path)
     output = init(directory_name)
+    # traverse files in dir
+    # if .vm extension, translate file
     for filename in os.listdir(path):
         classname, extension = os.path.splitext(filename)
         if extension == ".vm":
