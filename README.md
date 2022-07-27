@@ -18,4 +18,6 @@ Specify the location of `main.py` and the input directory, e.g.:
 `python3 IbarakiChristieProject7/src/main.py <directory>`
 
 ### Known issues:
-None
+I pass the tests for Project 8, but
+
+when I translate the Square .vm files (Project 9) and run the resulting .asm file in the CPUEmulator, I get an illegal memory address error (I run out of memory... the SP ends up at 24578), so I wonder if I'm not clearing things off the stack when I return (?). I tried to make sure I understood every line in the worksheet and checked it against my code, but I'm not sure that I understand Square...

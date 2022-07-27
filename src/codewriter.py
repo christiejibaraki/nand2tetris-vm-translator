@@ -136,10 +136,10 @@ class CodeWriter:
         return_label = f"RETURN_{function_name}_{self.__counter}"
         self.__counter += 1
         self.__output += (f"@{return_label}\nD=A\n@SP\nAM=M+1\nA=A-1\nM=D\n"  # push return address onto stack
-                          + self.push_variable("LCL")
-                          + self.push_variable("ARG")
-                          + self.push_variable("THIS")
-                          + self.push_variable("THAT")
+                          + self.push_segment_variable("LCL")
+                          + self.push_segment_variable("ARG")
+                          + self.push_segment_variable("THIS")
+                          + self.push_segment_variable("THAT")
                           + f"@SP\nD=M\n@{nArgs_int+5}\nD=D-A\n@ARG\nM=D\n"  # make ARG point to function args
                           + "@SP\nD=M\n@LCL\nM=D\n"  # make LCL point to where SP is pointing
                           + f"@{function_name}\n0;JMP\n"  # goto function
@@ -176,13 +176,13 @@ class CodeWriter:
                           )
 
     @staticmethod
-    def push_variable(variable):
+    def push_segment_variable(segment_name):
         """
         Return hack assembly language to push variable onto stack
-        :param variable: (str) name of variable e.g. LCL, ARG
+        :param segment_name: (str) name of segment e.g. LCL, ARG
         :return: (str) hack assembly language
         """
-        return f"@{variable}\nD=M\n@SP\nAM=M+1\nA=A-1\nM=D\n"
+        return f"@{segment_name}\nD=M\n@SP\nAM=M+1\nA=A-1\nM=D\n"
 
     def get_output(self):
         """
